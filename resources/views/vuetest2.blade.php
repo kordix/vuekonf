@@ -8,6 +8,7 @@
 
   <div v-for="item in dane2.find((el)=>el.current==true).dane"  class="col-md-3">
   <p v-bind:class="{active:item.current}" v-on:click="handleitemclick(item,dane2.find((el)=>el.current==true).dane)" >@{{item.bez}}</p>
+
   </div>
 
 </div>
