@@ -11,11 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::view('/vue', 'vuetest');
+Route::view('/', 'vuetest2');
+
 
 Auth::routes();
 

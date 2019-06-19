@@ -13,7 +13,6 @@
 <div class="scroller" style="width:500px;border:1px black solid;display:flex;justify-content:space-around">
 <div v-for="item in currentscroller"  class="col-md-3"  v-on:click="handleitemclick(item,currentscroller)" v-bind:class="{active:item.current}" >
 <p >@{{item.bez}}</p>
-<p v-if="item.artnr=='KK'">fsafdsa</p>
 </div>
 </div>
 
@@ -21,4 +20,8 @@
 </div>
 </div>
 
+@endsection
+
+@section('scripts')
+  <script src="{{ asset('js/konf.js') }}" defer></script>
 @endsection

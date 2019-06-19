@@ -11,10 +11,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    {{-- <script src="{{ asset('js/vue.js') }}" defer></script> --}}
-    <script src="{{ asset('js/konf.js') }}" defer></script>
+    <script src="{{ asset('js/vue.js') }}" defer></script>
 
-
+    @yield('scripts')
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -85,7 +84,7 @@
             @yield('content')
         </main>
     </div>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js">
+    {{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"> --}}
 
     </script>
 </body>
