@@ -1,10 +1,10 @@
 const app = new Vue({
     el: '#app',
     data: {
-        serie: [{artnr: '10',bez: 'normal'}, {artnr: '20',bez: 'premium'}],
-        modele:[{artnr:'dupa',bez:'dupa'}],
-        sposobyotw:[{artnr:'KK',bez:'Klamko-klamka',current:false},{artnr:'KG',bez:'Klamko-gałka'}],
-        klamki:[{artnr:'magnusK',bez:'Magnus',typ:'KK'},{artnr:'UrsusK',bez:'Ursus',typ:'KK'},{artnr:'magnusK',bez:'TahomaG',typ:'KG'} ],
+        serie: [{artnr: '10',bez: 'normal',current:false}, {artnr: '20',bez: 'premium',current:false}],
+        modele:[{artnr:'dupa',bez:'dupa',current:false}],
+        sposobyotw:[{artnr:'KK',bez:'Klamko-klamka',current:false},{artnr:'KG',bez:'Klamko-gałka',current:false}],
+        klamki:[{artnr:'magnusK',bez:'Magnus',typ:'KK',current:false},{artnr:'UrsusK',bez:'Ursus',typ:'KK',current:false},{artnr:'magnusK',bez:'TahomaG',typ:'KG',current:false} ],
         currentscroller:[],
         currentsposobotw:[],
         pipa:true
