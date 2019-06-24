@@ -11,7 +11,7 @@
 
 
 <div class="scroller" style="width:500px;border:1px black solid;display:flex;justify-content:space-around">
-<div v-for="item in currentscroller"  class="col-md-3"  v-on:click="handleitemclick(item,currentscroller)" v-bind:class="{active:item.current}" >
+<div v-for="item in currentscroller"  class="col-md-3 scroller-item"  v-on:click="handleitemclick(item,currentscroller)" v-bind:class="{active:item.current}" >
 <p >@{{item.bez}}</p>
 </div>
 </div>

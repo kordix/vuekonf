@@ -5,11 +5,14 @@
 
 <div class="" id="app">
 <button type="button" name="button" v-for="item in dane2" v-on:click="setscroller(item)">@{{item.nazwa}}</button>
+<div class="scroller">
 
   <div v-for="item in dane2.find((el)=>el.current==true).dane"  class="col-md-3">
   <p v-bind:class="{active:item.current}" v-on:click="handleitemclick(item,dane2.find((el)=>el.current==true).dane)" >@{{item.bez}}</p>
 
   </div>
+</div>
+  
 
 </div>
 </div>
