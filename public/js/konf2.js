@@ -8,15 +8,16 @@ const app = new Vue({
         klamki:{dane:[{artnr:'magnusK',bez:'Magnus',typ:'KK',current:false},{artnr:'UrsusK',bez:'Ursus',typ:'KK',current:false},{artnr:'magnusK',bez:'TahomaG',typ:'KG',current:false}],current:false}
       },
       dane2:[
-       {nazwa:'serie',current:true,dane:[{artnr:'10',bez:'normal',current:false},{artnr:'20',bez:'premium'}]},
-       {nazwa:'modele',current:false,dane:[{artnr:'01',bez:'01',current:false},{artnr:'02',bez:'02',current:false}]},
-       {nazwa:'sposobyotw',current:false,dane:[{artnr:'KK',bez:'Klamko-klamka',current:false},{artnr:'KG',bez:'Klamko-gałka',current:false},{artnr:'PP',bez:'Pochwyt-pochwyt',current:false}]},
-       {nazwa:'klamki',current:false,
+       {nazwa:'serie',bez:'Seria', current:true,dane:[{artnr:'10',bez:'normal',current:false},{artnr:'20',bez:'premium'}]},
+       {nazwa:'modele',bez:'Wzór', current:false,dane:[{artnr:'01',bez:'01',current:false},{artnr:'02',bez:'02',current:false}]},
+       {nazwa:'sposobyotw',bez:'Sposób otw.',current:false,dane:[{artnr:'KK',bez:'Klamko-klamka',current:false},{artnr:'KG',bez:'Klamko-gałka',current:false},{artnr:'PP',bez:'Pochwyt-pochwyt',current:false}]},
+       {nazwa:'klamki',bez:'Klamka',current:false,
        dane:[{artnr:'P060o90',bez:'Pochwyt 60 cm okrągły ALFA 90 st.',typ:'PP',wzory:['01','05'], current:false},
        {artnr:'magnusK',bez:'Magnus',typ:'KK',current:false,wzory:['01','05']},
        {artnr:'UrsusK',bez:'Ursus',typ:'KK',wzory:['01','05'],current:false},
-       {artnr:'magnusK',bez:'TahomaG',typ:'KG',wzory:['01','05'],current:false}]},
-       {nazwa:'kolory',current:false, dane:[{artnr:'01',bez:'Srebrno-szary',current:false},{artnr:'04',bez:'Orzech',current:false},{artnr:'06',bez:'Złoty Dąb',current:false}]}
+       {artnr:'magnusK',bez:'TahomaG',typ:'KG',wzory:['01','05'],current:false}
+       ]},
+       {nazwa:'kolory',bez:'kolory', current:false, dane:[{artnr:'01',bez:'Srebrno-szary',current:false},{artnr:'04',bez:'Orzech',current:false},{artnr:'06',bez:'Złoty Dąb',current:false}]}
      ],
      klamkiorig:[]
     },
@@ -32,6 +33,9 @@ computed:{
     return this.dane2.filter(function (el) {
       return el.current === true
     })
+  },
+  test:function(asdf){
+    return asdf;
   }
 },
     methods:{
@@ -62,6 +66,9 @@ computed:{
           this.dane2[3].dane = this.dane2[3].dane.filter((el)=>el.wzory.indexOf(model)>=0);
 
         }
+      },
+      test:function(){
+        return 'fdafda';
       }
 }
 });

@@ -4,10 +4,16 @@
   <div class="container">
 
 <div class="" id="app">
-<button type="button" name="button" v-for="item in dane2" v-on:click="setscroller(item)">@{{item.nazwa}}</button>
+<div class="row" style="margin-left:0px;padding-left:0px">
+
+<div class="mycontrol" v-for="item in dane2" style="width:150px;position:relative"   v-on:click="setscroller(item)" tabindex="0">
+@{{item.bez}} <span v-for="item in item.dane"><span v-if="item.current==true" style="text-align:right;font-weight:bold ">@{{item.bez}}</span></span> <i class="arrow down"></i>
+</div>
+</div>
+
 <div>
-  <transition-group class="scroller" name="list" tag="span">
-  <div v-for="item in dane2.find((el)=>el.current==true).dane" v-bind:key="item"   class="col-md-3" v-bind:class="{active:item.current}" v-on:click="handleitemclick(item,dane2.find((el)=>el.current==true).dane)">
+  <transition-group class="scroller" name="fade" tag="div">
+  <div v-for="item in dane2.find((el)=>el.current==true).dane" v-bind:key="item.artnr"   class="col-md-3" v-bind:class="{active:item.current}" v-on:click="handleitemclick(item,dane2.find((el)=>el.current==true).dane)">
       <b><p style="text-align:center;margin-bottom:0px">@{{item.bez}}</p></b>
       {{-- <img :src="'images/'+dane2.find((el)=>el.current==true).nazwa+'/'+item.artnr+'.png' " alt=""> --}}
       <img class="img-fluid" :src="'images/'+dane2.find((el)=>el.current==true).nazwa+'/'+item.artnr+'.png' " >
