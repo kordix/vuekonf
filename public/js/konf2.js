@@ -1,23 +1,17 @@
 const app = new Vue({
     el: '#app',
     data: {
-      dane:{
-        serie: {dane:[{artnr: '10',bez: 'normal',current:false}, {artnr: '20',bez: 'premium',current:false}],current:true },
-        modele:{dane:[{artnr:'dupa',bez:'dupa',current:false}],current:false },
-        sposobyotw:{dane:[{artnr:'KK',bez:'Klamko-klamka',current:false},{artnr:'KG',bez:'Klamko-gałka',current:false}],current:false },
-        klamki:{dane:[{artnr:'magnusK',bez:'Magnus',typ:'KK',current:false},{artnr:'UrsusK',bez:'Ursus',typ:'KK',current:false},{artnr:'magnusK',bez:'TahomaG',typ:'KG',current:false}],current:false}
-      },
       dane2:[
-       {nazwa:'serie',bez:'Seria', current:true,dane:[{artnr:'10',bez:'normal',current:false},{artnr:'20',bez:'premium'}]},
-       {nazwa:'modele',bez:'Wzór', current:false,dane:[{artnr:'01',bez:'01',current:false},{artnr:'02',bez:'02',current:false}]},
-       {nazwa:'sposobyotw',bez:'Sposób otw.',current:false,dane:[{artnr:'KK',bez:'Klamko-klamka',current:false},{artnr:'KG',bez:'Klamko-gałka',current:false},{artnr:'PP',bez:'Pochwyt-pochwyt',current:false}]},
-       {nazwa:'klamki',bez:'Klamka',current:false,
+       {nazwa:'serie',bez:'Seria', current:true,show:true, dane:[{artnr:'10',bez:'normal',current:false},{artnr:'20',bez:'premium'}]},
+       {nazwa:'modele',bez:'Wzór', current:false,show:false ,dane:[{artnr:'01',bez:'01',current:false},{artnr:'02',bez:'02',current:false}]},
+       {nazwa:'sposobyotw',bez:'Sposób otw.',show:false,current:false,dane:[{artnr:'KK',bez:'Klamko-klamka',current:false},{artnr:'KG',bez:'Klamko-gałka',current:false},{artnr:'PP',bez:'Pochwyt-pochwyt',current:false}]},
+       {nazwa:'klamki',bez:'Klamka',show:false,current:false,
        dane:[{artnr:'P060o90',bez:'Pochwyt 60 cm okrągły ALFA 90 st.',typ:'PP',wzory:['01','05'], current:false},
-       {artnr:'magnusK',bez:'Magnus',typ:'KK',current:false,wzory:['01','05']},
-       {artnr:'UrsusK',bez:'Ursus',typ:'KK',wzory:['01','05'],current:false},
-       {artnr:'magnusK',bez:'TahomaG',typ:'KG',wzory:['01','05'],current:false}
+       {artnr:'magnusK',bez:'Magnus',typ:'KK',show:false,current:false,wzory:['01','05']},
+       {artnr:'UrsusK',bez:'Ursus',typ:'KK',show:false,wzory:['01','05'],current:false},
+       {artnr:'magnusK',bez:'TahomaG',typ:'KG',show:false,wzory:['01','05'],current:false}
        ]},
-       {nazwa:'kolory',bez:'kolory', current:false, dane:[{artnr:'01',bez:'Srebrno-szary',current:false},{artnr:'04',bez:'Orzech',current:false},{artnr:'06',bez:'Złoty Dąb',current:false}]}
+       {nazwa:'kolory',bez:'kolory',show:false, current:false, dane:[{artnr:'01',bez:'Srebrno-szary',current:false},{artnr:'04',bez:'Orzech',current:false},{artnr:'06',bez:'Złoty Dąb',current:false}]}
      ],
      klamkiorig:[]
     },
@@ -64,6 +58,17 @@ computed:{
           this.dane2[3].dane = origin.filter((el)=>el.typ==sposobotw);
           // console.log(this.dane2[3].dane[0].wzory.indexOf(model));
           this.dane2[3].dane = this.dane2[3].dane.filter((el)=>el.wzory.indexOf(model)>=0);
+
+        }
+      },
+      next:function(){
+        if(this.dane2.find((el)=>el.current==true)){
+          let active = this.dane2.find((el)=>el.current==true);
+          let index = this.dane2.indexOf(active);
+          this.dane2[index+1].current = true;
+          this.dane2[index+1].show = true;
+
+          this.dane2[index].current = false;
 
         }
       },
