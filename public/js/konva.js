@@ -57,6 +57,3 @@ drawokleina();
 drawklamka();
 
 }
-
-drawokleina();
-drawklamka();
