@@ -11,7 +11,7 @@
 <div class="" id="app">
   <transition-group name="fade" tag="div" class="row" style="margin-left:0px;padding-left:0px">
 
-<div class="mycontrol" v-for="item in dane2.filter((el)=>el.available==true).filter((el)=>el.show == true)" :key="item.nazwa" style="width:150px;position:relative"   v-on:click="setscroller(item)" tabindex="0">
+<div class="mycontrol" :class="{mycontrolactive:item.current}" v-for="item in dane2.filter((el)=>el.available==true).filter((el)=>el.show == true)" :key="item.nazwa"  style="width:150px;position:relative"   v-on:click="setscroller(item)" tabindex="0">
 @{{item.bez}}  <i class="arrow down"></i>
 </div>
 </transition-group>
@@ -19,11 +19,12 @@
 
 
 <div>
-  <div class="scroller" name="fade" tag="div">
+  <div class="scroller" name="test" tag="div">
     <div class="" v-if="dane2.find((el)=>el.current==true)">
 
     <div class="row">
 
+      <transition-group name="test" tag="div" class="row" style="margin-left:0px;padding-left:0px">
 
   <div v-for="item in dane2.find((el)=>el.current==true).dane.filter((el)=>el.show==true)" v-bind:key="item.artnr"   class="col-md-3" v-on:click="handleitemclick(item,dane2.find((el)=>el.current==true).dane)" v-bind:class="{active:item.current}" >
       <b><p style="text-align:center;margin-bottom:0px">@{{item.bez}}</p></b>
@@ -33,6 +34,8 @@
   {{-- <p v-bind:class="{active:item.current}" v-on:click="handleitemclick(item,dane2.find((el)=>el.current==true).dane)" >@{{item.bez}}</p> --}}
 
   </div>
+</transition-group>
+
 </div>
 
 </div>

@@ -3,7 +3,8 @@
 @section('content')
 
 <div class="container" id="app">
-<p v-for="item in wzory[0].dane">@{{item.bez}}</p>
+@{{mydata.myprop}}
+
 <button type="button" @click="test">test</button>
 
 </div>
