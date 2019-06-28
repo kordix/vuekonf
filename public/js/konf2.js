@@ -31,22 +31,29 @@ const app = new Vue({
      tryb:'all',
     inoxlista:['50','12','12A','12B','12C','20','F3B','F3C'],
     },
-    created: function () {
+    created: async function () {
       this.tryb = localStorage.tryb;
 
       // this.getWzoryApi();
 
       // this.dane2.find((el)=>el.nazwa=='modele').dane.push(wzoryzapi2[0]);
-      this.getWzoryApi();
+      await this.getWzoryApi();
+      console.log(2);
+
+      this.dane2.map((el)=>el.dane.map((el)=>Vue.set(el,'show',true )));
+
       this.dane2.map((el)=>el.available=true);
-      this.$data.dane2.filter((el,index)=>index>0).map((el)=>Vue.set(el,'current',false) );
-      console.log(this.$data.dane2);
+      console.log(this.dane2);
+
+      // console.log(this.$data.dane2);
 
 
 },
 mounted:function(){
   // console.log(this.$data);
-  this.$data.dane2.map((el)=>el.dane.map((el)=>Vue.set(el,'show',true )));
+
+  this.dane2.filter((el,index)=>index>0).map((el)=>Vue.set(el,'current',false) );
+
   this.klamkiorig =Array.from(this.dane2.find((el)=>el.nazwa=='klamki').dane);
   this.stronyorig =Array.from(this.dane2.find((el)=>el.nazwa=='inoxstrona').dane);
   this.gettryb();
@@ -146,15 +153,17 @@ watch:{
           }
         }
       },
-      getWzoryApi:function(){
+      getWzoryApi: async function()  {
+
         const request = async () => {
             const response = await fetch(`/api/wzory`);
             const json = await response.json();
+            // json.map((el)=>el.show=true);
             json.map((el)=>this.dane2.find((el)=>el.nazwa=='modele').dane.push(el));
-
+            console.log(1);
         }
 
-        request();
+        await request();
       }
     }
 
