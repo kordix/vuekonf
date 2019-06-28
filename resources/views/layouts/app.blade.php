@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-  
+
 
 
 
@@ -77,6 +77,12 @@
                 </div>
             </div>
         </nav>
+
+        <div class="container">
+            @if($flash=session('message'))
+            <div class="alert alert-success col-md-5">{{$flash}}</div>
+            @endif
+        </div>
 
         <main class="py-4">
             @yield('content')

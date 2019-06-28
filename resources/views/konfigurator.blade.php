@@ -9,11 +9,7 @@
 
 
 <div class="" id="app">
-
-
-
   <transition-group name="fade" tag="div" class="row" style="margin-left:0px;padding-left:0px">
-
 
 <div class="mycontrol" v-for="item in dane2.filter((el)=>el.available==true).filter((el)=>el.show == true)" :key="item.nazwa" style="width:150px;position:relative"   v-on:click="setscroller(item)" tabindex="0">
 @{{item.bez}}  <i class="arrow down"></i>
@@ -76,6 +72,11 @@
 </select>
 <button type="button" name="button" @click="gettryb">Zmień tryb</button>
 <button type="button" name="button" v-on:click="test2">test</button>
+<button type="button" name="button" v-on:click="store">store</button>
+<button type="button" name="button" v-on:click="restore">restore</button>
+<button type="button" name="button" v-on:click="logvue">vuelog</button>
+
+
 
 <p></p>
 

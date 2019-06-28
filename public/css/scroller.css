@@ -39,6 +39,11 @@ padding:5px;
   opacity: 0;
 }
 
+.fade-enter-active, .fade-leave-to{
+  /* position:absolute; */
+  transition: opacity 1.5s;
+}
+
   .mycontrol {
     overflow:hidden;
   display: block;

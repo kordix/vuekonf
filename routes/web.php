@@ -16,9 +16,13 @@
 // });
 
 Route::view('/vue', 'vuetest');
-Route::view('/', 'vuetest2');
+Route::view('/', 'konfigurator');
+Route::view('/apitest', 'apitest');
+
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/wzor/create','WzorController@create')->name('wzor.create');
+Route::post('/wzor/store','WzorController@store')->name('wzor.store');
