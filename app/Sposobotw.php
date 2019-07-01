@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Wzor extends Model
+class Sposobotw extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'wzors';
+    protected $table = 'sposobotws';
 
     /**
     * The database primary key value.
@@ -25,7 +25,7 @@ class Wzor extends Model
      *
      * @var array
      */
-    protected $fillable = ['artnr', 'bez'];
+    protected $fillable = ['artnr'];
 
     
 }

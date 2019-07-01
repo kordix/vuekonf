@@ -6,9 +6,9 @@
 
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Dodaj Wzor</div>
+                    <div class="card-header">Create New Serium</div>
                     <div class="card-body">
-                        <a href="{{ url('/wzor') }}" title="Back"><button class="btn btn-warning btn-sm"> Back</button></a>
+                        <a href="{{ url('/seria') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 
@@ -20,10 +20,10 @@
                             </ul>
                         @endif
 
-                        <form method="POST" action="{{ url('/wzor') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                        <form method="POST" action="{{ url('/seria') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                             {{ csrf_field() }}
 
-                            @include ('wzor.form', ['formMode' => 'create'])
+                            @include ('seria.form', ['formMode' => 'create'])
 
                         </form>
 

@@ -4,31 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use App\Wzor;
+use App\Handlepivot;
+
+
+use App\Handle;
 use Illuminate\Http\Request;
 
-class WzorController extends Controller
+class HandleController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\View\View
      */
+     public function __construct(){
+       $this->pipa=[];
+     }
+
     public function index(Request $request)
     {
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $wzor = Wzor::where('artnr', 'LIKE', "%$keyword%")
+            $handle = Handle::where('artnr', 'LIKE', "%$keyword%")
                 ->orWhere('bez', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $wzor = Wzor::latest()->paginate($perPage);
+            $handle = Handle::latest()->paginate($perPage);
         }
 
-        return view('wzor.index', compact('wzor'));
+        return view('handle.index', compact('handle'));
     }
 
     /**
@@ -38,7 +45,7 @@ class WzorController extends Controller
      */
     public function create()
     {
-        return view('wzor.create');
+        return view('handle.create');
     }
 
     /**
@@ -50,12 +57,12 @@ class WzorController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $requestData = $request->all();
-        
-        Wzor::create($requestData);
 
-        return redirect('wzor')->with('flash_message', 'Wzor added!');
+        $requestData = $request->all();
+
+        Handle::create($requestData);
+
+        return redirect('handle')->with('flash_message', 'Handle added!');
     }
 
     /**
@@ -67,9 +74,9 @@ class WzorController extends Controller
      */
     public function show($id)
     {
-        $wzor = Wzor::findOrFail($id);
+        $handle = Handle::findOrFail($id);
 
-        return view('wzor.show', compact('wzor'));
+        return view('handle.show', compact('handle'));
     }
 
     /**
@@ -81,9 +88,9 @@ class WzorController extends Controller
      */
     public function edit($id)
     {
-        $wzor = Wzor::findOrFail($id);
+        $handle = Handle::findOrFail($id);
 
-        return view('wzor.edit', compact('wzor'));
+        return view('handle.edit', compact('handle'));
     }
 
     /**
@@ -96,13 +103,13 @@ class WzorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-        $requestData = $request->all();
-        
-        $wzor = Wzor::findOrFail($id);
-        $wzor->update($requestData);
 
-        return redirect('wzor')->with('flash_message', 'Wzor updated!');
+        $requestData = $request->all();
+        // dd($requestData);
+        $handle = Handle::findOrFail($id);
+        $handle->update($requestData);
+
+        return redirect('handle')->with('flash_message', 'Handle updated!');
     }
 
     /**
@@ -114,8 +121,34 @@ class WzorController extends Controller
      */
     public function destroy($id)
     {
-        Wzor::destroy($id);
+        Handle::destroy($id);
 
-        return redirect('wzor')->with('flash_message', 'Wzor deleted!');
+        return redirect('handle')->with('flash_message', 'Handle deleted!');
     }
+
+    public function pivotview(){
+      // dd(Handle::find(1)->wzory);
+      // dd($this->pipa);
+
+      // $handles = Handle::all();
+      // $handles->map(function($el){
+      //   array_push($this->pipa,$el->wzory->pluck('artnr')->toArray());
+      // });
+        // dd($this->pipa);
+      // dd($pipa);
+
+      // $klamkaone = Handle::find(1);
+
+      $klamki = Handle::all();
+      $wzory = Wzor::all();
+      return view('handlepivot',compact('klamki','wzory'));
+    }
+
+    public function storepivot(Request $request){
+      Handlepivot::create($request->all());
+      return back();
+    }
+
+
+
 }

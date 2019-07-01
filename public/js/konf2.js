@@ -6,19 +6,20 @@ const request = async () => {
     const json = await response.json();
     wzoryzapi2=json;
 }
+//{artnr:'10',bez:'normal',current:false},{artnr:'20',bez:'premium',current:false},{artnr:'30',bez:'optimum',current:false}
 
 const app = new Vue({
     el: '#app',
     data: {
       dane2:[
-       {nazwa:'serie',bez:'Seria', current:true,show:true, dane:[{artnr:'10',bez:'normal',current:false},{artnr:'20',bez:'premium',current:false},{artnr:'30',bez:'optimum',current:false}]},
-       {nazwa:'modele',bez:'Wzór',show:false ,dane:[{artnr:'01',bez:'01',current:false},{artnr:'02',bez:'02',current:false},{artnr:'12',bez:'12',current:false},{artnr:'F3B',bez:'F03B',current:false}]},
-       {nazwa:'sposobyotw',bez:'Sposób otw.',show:false,dane:[{artnr:'KK',bez:'Klamko-klamka',current:false},{artnr:'KG',bez:'Klamko-gałka',current:false},{artnr:'PP',bez:'Pochwyt-pochwyt',current:false}]},
+       {nazwa:'serie',bez:'Seria', current:true,show:true, dane:[]},
+       {nazwa:'modele',bez:'Wzór',show:false ,dane:[]},
+       {nazwa:'sposobyotw',bez:'Sposób otw.',show:false,dane:[]},
        {nazwa:'klamki',bez:'Klamka',show:false,current:false,
-       dane:[{artnr:'P060o90',bez:'Pochwyt 60 cm okrągły ALFA 90 st.',typ:'PP',wzory:['01','05'], current:false},
-       {artnr:'magnusK',bez:'Magnus',typ:'KK',show:false,current:true,wzory:['01','05','F3B']},
-       {artnr:'UrsusK',bez:'Ursus',typ:'KK',show:false,wzory:['01','05','12','F3C'],current:false},
-       {artnr:'tahomaK',bez:'TahomaG',typ:'KG',show:false,wzory:['01','05','12'],current:false}
+       dane:[{artnr:'P060o90',bez:'Pochwyt 60 cm okrągły ALFA 90 st.',typ:'PP',wzory:[], current:false},
+       {artnr:'magnusK',bez:'Magnus',typ:'KK',show:false,current:true,wzory:[]},
+       {artnr:'UrsusK',bez:'Ursus',typ:'KK',show:false,wzory:[],current:false},
+       {artnr:'tahomaK',bez:'TahomaG',typ:'KG',show:false,wzory:[],current:false}
        ]},
        {nazwa:'kolory',bez:'kolory',show:false,dane:[{artnr:'01',bez:'Srebrno-szary',current:false},{artnr:'04',bez:'Orzech',current:true},{artnr:'06',bez:'Złoty Dąb',current:false}]},
        {nazwa:'klamkakolor',bez:'Kolor klamki',show:false,dane:[{artnr:'stz',bez:'Stare złoto',current:true},{artnr:'inox',bez:'inox',current:false},{artnr:'black',bez:'Black',current:false} ]},
@@ -33,30 +34,32 @@ const app = new Vue({
     },
     created: async function () {
       this.tryb = localStorage.tryb;
-
-      // this.getWzoryApi();
-
-      // this.dane2.find((el)=>el.nazwa=='modele').dane.push(wzoryzapi2[0]);
       await this.getWzoryApi();
-      console.log(2);
+      await this.getSerieApi();
+      await this.getOtwApi();
+      // await this.getPivotApi('magnusK');
+
+      this.dane2.find((el)=>el.nazwa=='klamki').dane.map((el)=>
+      this.getPivotApi(el.artnr)
+    );
+
+    //   this.dane2.find((el)=>el.nazwa=='klamki').dane.map((el)=>
+    //     await this.getPivotApi(el.artnr);
+    // );
 
       this.dane2.map((el)=>el.dane.map((el)=>Vue.set(el,'show',true )));
-
+      this.dane2.map((el)=>el.dane.map((el)=>Vue.set(el,'current',false )));
       this.dane2.map((el)=>el.available=true);
-      console.log(this.dane2);
-
-      // console.log(this.$data.dane2);
-
-
 },
 mounted:function(){
-  // console.log(this.$data);
 
   this.dane2.filter((el,index)=>index>0).map((el)=>Vue.set(el,'current',false) );
 
   this.klamkiorig =Array.from(this.dane2.find((el)=>el.nazwa=='klamki').dane);
   this.stronyorig =Array.from(this.dane2.find((el)=>el.nazwa=='inoxstrona').dane);
   this.gettryb();
+
+
   // this.getWzoryApi();
 
   // fetch(`/api/wzory/`)
@@ -108,7 +111,6 @@ watch:{
           let sposobotw = this.dane2[2].dane.find((el)=>el.current==true).artnr;
           let model = this.dane2[1].dane.find((el)=>el.current==true).artnr;
           this.dane2.find((el)=>el.nazwa=='klamki').dane = origin.filter((el)=>el.typ==sposobotw);
-          // console.log(this.dane2[3].dane[0].wzory.indexOf(model));
           this.dane2.find((el)=>el.nazwa=='klamki').dane = this.dane2.find((el)=>el.nazwa=='klamki').dane.filter((el)=>el.wzory.indexOf(model)>=0);
         }
         this.getInox();
@@ -135,7 +137,6 @@ watch:{
           let origin = this.stronyorig;
           let model = this.dane2.find((el)=>el.nazwa=='modele').dane.find((el)=>el.current==true).artnr;
           if(this.inoxlista.indexOf(model)>0){
-            console.log('tutaj jest inox');
             this.dane2.find((el)=>el.nazwa=='inoxkolor').available=true;
             this.dane2.find((el)=>el.nazwa=='inoxstrona').available=true;
 
@@ -147,21 +148,59 @@ watch:{
             }
 
           }else{
-            console.log('tutaj nie ma inoxa');
             this.dane2.find((el)=>el.nazwa=='inoxkolor').available=false;
             this.dane2.find((el)=>el.nazwa=='inoxstrona').available=false;
           }
         }
       },
       getWzoryApi: async function()  {
-
         const request = async () => {
             const response = await fetch(`/api/wzory`);
             const json = await response.json();
             // json.map((el)=>el.show=true);
             json.map((el)=>this.dane2.find((el)=>el.nazwa=='modele').dane.push(el));
-            console.log(1);
         }
+        await request();
+      },
+      getSerieApi: async function()  {
+        const request = async () => {
+            const response = await fetch(`/api/seria`);
+            const json = await response.json();
+            // json.map((el)=>el.show=true);
+            json.map((el)=>this.dane2.find((el)=>el.nazwa=='serie').dane.push(el));
+        }
+        await request();
+      },
+      getOtwApi: async function()  {
+        const request = async () => {
+            const response = await fetch(`/api/sposobotw`);
+            const json = await response.json();
+            // json.map((el)=>el.show=true);
+            json.map((el)=>this.dane2.find((el)=>el.nazwa=='sposobyotw').dane.push(el));
+        }
+        await request();
+      },
+      getKlamkiApi: async function()  {
+        const request = async () => {
+            const response = await fetch(`/api/klamki`);
+            const json = await response.json();
+            // json.map((el)=>el.show=true);
+            json.map((el)=>this.dane2.find((el)=>el.nazwa=='klamki').dane.push(el));
+        }
+        await request();
+      },
+      getPivotApi:async function(klamka){
+        const request = async () => {
+            const response = await fetch(`/api/klamkipivot/${klamka}`);
+            const json = await response.json();
+            json.map((el)=>
+            this.dane2.find((el)=>el.nazwa=='klamki').dane.find((el)=>el.artnr==klamka).wzory.push(el)
+          )
+            ;
+            ;
+        }
+            // json.map((el)=>el.show=true);
+
 
         await request();
       }

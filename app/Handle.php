@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Wzor extends Model
+class Handle extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'wzors';
+    protected $table = 'handles';
 
     /**
     * The database primary key value.
@@ -27,5 +27,9 @@ class Wzor extends Model
      */
     protected $fillable = ['artnr', 'bez'];
 
-    
+    public function wzory(){
+      return $this->belongsToMany('App\Wzor','handle_wzor');
+    }
+
+
 }

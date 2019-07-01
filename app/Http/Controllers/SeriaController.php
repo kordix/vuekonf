@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Wzor;
+use App\Serium;
 use Illuminate\Http\Request;
 
-class WzorController extends Controller
+class SeriaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,14 +21,14 @@ class WzorController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $wzor = Wzor::where('artnr', 'LIKE', "%$keyword%")
+            $seria = Serium::where('artnr', 'LIKE', "%$keyword%")
                 ->orWhere('bez', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $wzor = Wzor::latest()->paginate($perPage);
+            $seria = Serium::latest()->paginate($perPage);
         }
 
-        return view('wzor.index', compact('wzor'));
+        return view('seria.index', compact('seria'));
     }
 
     /**
@@ -38,7 +38,7 @@ class WzorController extends Controller
      */
     public function create()
     {
-        return view('wzor.create');
+        return view('seria.create');
     }
 
     /**
@@ -53,9 +53,9 @@ class WzorController extends Controller
         
         $requestData = $request->all();
         
-        Wzor::create($requestData);
+        Serium::create($requestData);
 
-        return redirect('wzor')->with('flash_message', 'Wzor added!');
+        return redirect('seria')->with('flash_message', 'Serium added!');
     }
 
     /**
@@ -67,9 +67,9 @@ class WzorController extends Controller
      */
     public function show($id)
     {
-        $wzor = Wzor::findOrFail($id);
+        $serium = Serium::findOrFail($id);
 
-        return view('wzor.show', compact('wzor'));
+        return view('seria.show', compact('serium'));
     }
 
     /**
@@ -81,9 +81,9 @@ class WzorController extends Controller
      */
     public function edit($id)
     {
-        $wzor = Wzor::findOrFail($id);
+        $serium = Serium::findOrFail($id);
 
-        return view('wzor.edit', compact('wzor'));
+        return view('seria.edit', compact('serium'));
     }
 
     /**
@@ -99,10 +99,10 @@ class WzorController extends Controller
         
         $requestData = $request->all();
         
-        $wzor = Wzor::findOrFail($id);
-        $wzor->update($requestData);
+        $serium = Serium::findOrFail($id);
+        $serium->update($requestData);
 
-        return redirect('wzor')->with('flash_message', 'Wzor updated!');
+        return redirect('seria')->with('flash_message', 'Serium updated!');
     }
 
     /**
@@ -114,8 +114,8 @@ class WzorController extends Controller
      */
     public function destroy($id)
     {
-        Wzor::destroy($id);
+        Serium::destroy($id);
 
-        return redirect('wzor')->with('flash_message', 'Wzor deleted!');
+        return redirect('seria')->with('flash_message', 'Serium deleted!');
     }
 }

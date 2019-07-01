@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Wzor extends Model
+class Serium extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'wzors';
+    protected $table = 'serias';
 
     /**
     * The database primary key value.

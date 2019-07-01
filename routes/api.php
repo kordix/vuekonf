@@ -2,6 +2,12 @@
 
 use Illuminate\Http\Request;
 use App\Wzor;
+use App\Handle;
+
+use App\Serium;
+use App\Sposobotw;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +26,26 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::get('/wzory',function(){
-$value = Wzor::all('artnr','bez');
+$value = Wzor::all('artnr','bez')->sortBy('artnr')->values();
+return $value;
+});
+
+Route::get('/seria',function(){
+$value = Serium::all('artnr','bez')->sortBy('artnr')->values();
+return $value;
+});
+
+Route::get('/sposobotw',function(){
+$value = Sposobotw::all('artnr','bez')->sortBy('artnr')->values();
+return $value;
+});
+
+Route::get('/klamki',function(){
+$value = Handle::all('artnr','bez','typ')->sortBy('artnr')->values();
+return $value;
+});
+
+Route::get('/klamkipivot/{artnr}',function($artnr){
+$value = Handle::where('artnr','=',$artnr)->firstOrFail()->wzory->pluck('artnr');
 return $value;
 });

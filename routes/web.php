@@ -1,5 +1,7 @@
 <?php
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,10 +21,15 @@ Route::view('/vue', 'vuetest');
 Route::view('/', 'konfigurator');
 Route::view('/apitest', 'apitest');
 
-
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/wzor/create','WzorController@create')->name('wzor.create');
-Route::post('/wzor/store','WzorController@store')->name('wzor.store');
+
+Route::resource('seria', 'SeriaController');
+Route::resource('handle', 'HandleController');
+Route::resource('wzor', 'WzorController');
+
+Route::resource('sposobotw', 'SposobotwController');
+
+Route::get('/pivot', 'HandleController@pivotview');
+Route::post('/storepivot', 'HandleController@storepivot')->name('storepivot');

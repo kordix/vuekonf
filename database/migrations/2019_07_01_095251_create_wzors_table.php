@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateWzorsTable extends Migration
 {
@@ -14,11 +13,11 @@ class CreateWzorsTable extends Migration
     public function up()
     {
         Schema::create('wzors', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('artnr');
-            $table->string('bez');
+            $table->increments('id');
             $table->timestamps();
-        });
+            $table->string('artnr')->nullable();
+            $table->string('bez')->nullable();
+            });
     }
 
     /**
@@ -28,6 +27,6 @@ class CreateWzorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wzors');
+        Schema::drop('wzors');
     }
 }
