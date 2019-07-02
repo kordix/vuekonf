@@ -16,15 +16,15 @@ const app = new Vue({
        {nazwa:'modele',bez:'Wzór',dane:[]},
        {nazwa:'sposobyotw',bez:'Sposób otw.',dane:[]},
        {nazwa:'klamki',bez:'Klamka',current:false,
-       dane:[{artnr:'P060o90',bez:'Pochwyt 60 cm okrągły ALFA 90 st.',typ:'PP',wzory:[], current:false},
-       {artnr:'magnusK',bez:'Magnus',typ:'KK',current:false,wzory:[]},
-       {artnr:'UrsusK',bez:'Ursus',typ:'KK',wzory:[],current:false},
-       {artnr:'tahomaK',bez:'TahomaG',typ:'KG',wzory:[],current:false}
+       dane:[{artnr:'P060o90',bez:'Pochwyt 60 cm okrągły ALFA 90 st.',typ:'PP',wzory:[]},
+       {artnr:'magnusK',bez:'Magnus',typ:'KK',wzory:[]},
+       {artnr:'UrsusK',bez:'Ursus',typ:'KK',wzory:[]},
+       {artnr:'tahomaK',bez:'TahomaG',typ:'KG',wzory:[]}
        ]},
-       {nazwa:'kolory',bez:'kolory',dane:[{artnr:'01',bez:'Srebrno-szary',current:false},{artnr:'04',bez:'Orzech',current:true},{artnr:'06',bez:'Złoty Dąb',current:false}]},
-       {nazwa:'klamkakolor',bez:'Kolor klamki',dane:[{artnr:'stz',bez:'Stare złoto',current:true},{artnr:'inox',bez:'inox',current:false},{artnr:'black',bez:'Black',current:false} ]},
-       {nazwa:'inoxkolor',bez:'Kolor ramki', dane:[{artnr:'black',bez:'Black',current:false},{artnr:'inox',bez:'Inox',current:false}]},
-       {nazwa:'inoxstrona',bez:'Strona ramki', dane:[{artnr:'1',bez:'wewnątrz',current:false},{artnr:'2',bez:'zewnątrz',current:false},{artnr:'3',bez:'Obustronnie',current:false}]}
+       {nazwa:'kolory',bez:'kolory',dane:[{artnr:'01',bez:'Srebrno-szary'},{artnr:'04',bez:'Orzech'},{artnr:'06',bez:'Złoty Dąb'}]},
+       {nazwa:'klamkakolor',bez:'Kolor klamki',dane:[{artnr:'stz',bez:'Stare złoto'},{artnr:'inox',bez:'inox'},{artnr:'black',bez:'Black'} ]},
+       {nazwa:'inoxkolor',bez:'Kolor ramki', dane:[{artnr:'black',bez:'Black'},{artnr:'inox',bez:'Inox'}]},
+       {nazwa:'inoxstrona',bez:'Strona ramki', dane:[{artnr:'1',bez:'wewnątrz'},{artnr:'2',bez:'zewnątrz'},{artnr:'3',bez:'Obustronnie'}]}
      ],
      current:{dummy:true},
      klamkiorig:[],
