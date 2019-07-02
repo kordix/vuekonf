@@ -33,3 +33,8 @@ Route::resource('sposobotw', 'SposobotwController');
 
 Route::get('/pivot', 'HandleController@pivotview');
 Route::post('/storepivot', 'HandleController@storepivot')->name('storepivot');
+Route::get('/szybapivot', 'SzybaController@pivotview');
+Route::post('/storeszybapivot', 'SzybaController@storepivot')->name('storeszybapivot');
+
+
+Route::resource('szyba', 'SzybaController');

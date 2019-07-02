@@ -14,13 +14,9 @@ const app = new Vue({
       dane2:[
        {nazwa:'serie',bez:'Seria', current:true,show:true, dane:[]},
        {nazwa:'modele',bez:'Wzór',dane:[]},
+       {nazwa:'szyba',bez:'Przeszklenie',dane:[]},
        {nazwa:'sposobyotw',bez:'Sposób otw.',dane:[]},
-       {nazwa:'klamki',bez:'Klamka',current:false,
-       dane:[{artnr:'P060o90',bez:'Pochwyt 60 cm okrągły ALFA 90 st.',typ:'PP',wzory:[]},
-       {artnr:'magnusK',bez:'Magnus',typ:'KK',wzory:[]},
-       {artnr:'UrsusK',bez:'Ursus',typ:'KK',wzory:[]},
-       {artnr:'tahomaK',bez:'TahomaG',typ:'KG',wzory:[]}
-       ]},
+       {nazwa:'klamki',bez:'Klamka',dane:[]},
        {nazwa:'kolory',bez:'kolory',dane:[{artnr:'01',bez:'Srebrno-szary'},{artnr:'04',bez:'Orzech'},{artnr:'06',bez:'Złoty Dąb'}]},
        {nazwa:'klamkakolor',bez:'Kolor klamki',dane:[{artnr:'stz',bez:'Stare złoto'},{artnr:'inox',bez:'inox'},{artnr:'black',bez:'Black'} ]},
        {nazwa:'inoxkolor',bez:'Kolor ramki', dane:[{artnr:'black',bez:'Black'},{artnr:'inox',bez:'Inox'}]},
@@ -34,17 +30,23 @@ const app = new Vue({
     },
     created: async function () {
       this.tryb = localStorage.tryb;
-      await this.getWzoryApi();
       await this.getSerieApi();
+      await this.getWzoryApi();
+      await this.getSzybyApi();
       await this.getOtwApi();
       await this.getKlamkiApi();
+
+      // await this.getPivotAll();
       // await this.getPivotApi('magnusK');
 
-
-
       this.dane2.find((el)=>el.nazwa=='klamki').dane.map((el)=>
-      this.getPivotApi(el.artnr)
+      el.wzory = []
     );
+    this.dane2.find((el)=>el.nazwa=='szyba').dane.map((el)=>
+    el.wzory = []
+  );
+  await this.getPivotSzybyAll();
+    await this.getPivotAll();
 
     //   this.dane2.find((el)=>el.nazwa=='klamki').dane.map((el)=>
     //     await this.getPivotApi(el.artnr);
@@ -53,12 +55,15 @@ const app = new Vue({
       this.dane2.map((el)=>el.dane.map((el)=>Vue.set(el,'show',true )));
       this.dane2.map((el)=>el.dane.map((el)=>Vue.set(el,'current',false )));
       this.dane2.map((el)=>el.available=true);
+      this.klamkiorig =Array.from(this.dane2.find((el)=>el.nazwa=='klamki').dane);
+      this.szybyorig =Array.from(this.dane2.find((el)=>el.nazwa=='szyba').dane);
+
+
 },
 mounted:function(){
 
   this.dane2.filter((el,index)=>index>0).map((el)=>Vue.set(el,'current',false) );
 
-  this.klamkiorig =Array.from(this.dane2.find((el)=>el.nazwa=='klamki').dane);
   this.stronyorig =Array.from(this.dane2.find((el)=>el.nazwa=='inoxstrona').dane);
   this.gettryb();
 
@@ -93,7 +98,7 @@ watch:{
         }
       },
       test2:function(){
-        this.items.push('fsdaffd');
+        this.getPivotSzybyApi('00');
         // Vue.set(app.items[0], 'current', false)
       },
       test:function(){
@@ -109,12 +114,19 @@ watch:{
         }
         elem.current=true;
         //klamki, gałki, pochwyty
-        if(this.dane2[2].dane.find((el)=>el.current==true)){
+        if(this.dane2[3].dane.find((el)=>el.current==true)){
           let origin = this.klamkiorig;
-          let sposobotw = this.dane2[2].dane.find((el)=>el.current==true).artnr;
+          let sposobotw = this.dane2[3].dane.find((el)=>el.current==true).artnr;
           let model = this.dane2[1].dane.find((el)=>el.current==true).artnr;
           this.dane2.find((el)=>el.nazwa=='klamki').dane = origin.filter((el)=>el.typ==sposobotw);
           this.dane2.find((el)=>el.nazwa=='klamki').dane = this.dane2.find((el)=>el.nazwa=='klamki').dane.filter((el)=>el.wzory.indexOf(model)>=0);
+        }
+        //szyby
+        if(this.dane2[1].dane.find((el)=>el.current==true)){
+          let origin = this.szybyorig;
+          let model = this.dane2[1].dane.find((el)=>el.current==true).artnr;
+          this.dane2.find((el)=>el.nazwa=='szyba').dane = origin;
+          this.dane2.find((el)=>el.nazwa=='szyba').dane = this.dane2.find((el)=>el.nazwa=='szyba').dane.filter((el)=>el.wzory.indexOf(model)>=0);
         }
         this.getInox();
         // draw();
@@ -199,13 +211,44 @@ watch:{
             json.map((el)=>
             this.dane2.find((el)=>el.nazwa=='klamki').dane.find((el)=>el.artnr==klamka).wzory.push(el)
           )
-            ;
-            ;
         }
-            // json.map((el)=>el.show=true);
-
-
         await request();
+      },
+      getPivotAll:async function(){
+        let tab = this.dane2.find((el)=>el.nazwa=='klamki').dane;
+
+        for(let i=0;i<tab.length;i++){
+          await this.getPivotApi(tab[i].artnr);
+        }
+
+      },
+      getSzybyApi:async function(){
+        const request = async () => {
+            const response = await fetch(`/api/szyba`);
+            const json = await response.json();
+            // json.map((el)=>el.show=true);
+            json.map((el)=>this.dane2.find((el)=>el.nazwa=='szyba').dane.push(el));
+        }
+        await request();
+      },
+      getPivotSzybyApi:async function(szyba){
+        const request = async () => {
+          console.log('1');
+            const response = await fetch(`/api/szybapivot/${szyba}`);
+            const json = await response.json();
+            console.log(json);
+            json.map((el)=>
+            this.dane2.find((el)=>el.nazwa=='szyba').dane.find((el)=>el.artnr==szyba).wzory.push(el)
+          )
+        }
+        await request();
+      },
+      getPivotSzybyAll:async function(){
+        let tab = this.dane2.find((el)=>el.nazwa=='szyba').dane;
+
+        for(let i=0;i<tab.length;i++){
+          await this.getPivotSzybyApi(tab[i].artnr);
+        }
       }
     }
 

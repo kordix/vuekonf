@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use App\Wzor;
 use App\Handle;
+use App\Szyba;
+
 
 use App\Serium;
 use App\Sposobotw;
@@ -45,7 +47,17 @@ $value = Handle::all('artnr','bez','typ')->sortBy('artnr')->values();
 return $value;
 });
 
+Route::get('/szyba',function(){
+$value = Szyba::all('artnr','bez')->sortBy('artnr')->values();
+return $value;
+});
+
 Route::get('/klamkipivot/{artnr}',function($artnr){
 $value = Handle::where('artnr','=',$artnr)->firstOrFail()->wzory->pluck('artnr');
+return $value;
+});
+
+Route::get('/szybapivot/{artnr}',function($artnr){
+$value = Szyba::where('artnr','=',$artnr)->firstOrFail()->wzory->pluck('artnr');
 return $value;
 });
