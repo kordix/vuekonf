@@ -13,18 +13,18 @@ const app = new Vue({
     data: {
       dane2:[
        {nazwa:'serie',bez:'Seria', current:true,show:true, dane:[]},
-       {nazwa:'modele',bez:'Wzór',show:false ,dane:[]},
-       {nazwa:'sposobyotw',bez:'Sposób otw.',show:false,dane:[]},
-       {nazwa:'klamki',bez:'Klamka',show:false,current:false,
+       {nazwa:'modele',bez:'Wzór',dane:[]},
+       {nazwa:'sposobyotw',bez:'Sposób otw.',dane:[]},
+       {nazwa:'klamki',bez:'Klamka',current:false,
        dane:[{artnr:'P060o90',bez:'Pochwyt 60 cm okrągły ALFA 90 st.',typ:'PP',wzory:[], current:false},
-       {artnr:'magnusK',bez:'Magnus',typ:'KK',show:false,current:true,wzory:[]},
-       {artnr:'UrsusK',bez:'Ursus',typ:'KK',show:false,wzory:[],current:false},
-       {artnr:'tahomaK',bez:'TahomaG',typ:'KG',show:false,wzory:[],current:false}
+       {artnr:'magnusK',bez:'Magnus',typ:'KK',current:false,wzory:[]},
+       {artnr:'UrsusK',bez:'Ursus',typ:'KK',wzory:[],current:false},
+       {artnr:'tahomaK',bez:'TahomaG',typ:'KG',wzory:[],current:false}
        ]},
-       {nazwa:'kolory',bez:'kolory',show:false,dane:[{artnr:'01',bez:'Srebrno-szary',current:false},{artnr:'04',bez:'Orzech',current:true},{artnr:'06',bez:'Złoty Dąb',current:false}]},
-       {nazwa:'klamkakolor',bez:'Kolor klamki',show:false,dane:[{artnr:'stz',bez:'Stare złoto',current:true},{artnr:'inox',bez:'inox',current:false},{artnr:'black',bez:'Black',current:false} ]},
-       {nazwa:'inoxkolor',bez:'Kolor ramki',show:false, dane:[{artnr:'black',bez:'Black',current:false},{artnr:'inox',bez:'Inox',current:false}]},
-       {nazwa:'inoxstrona',bez:'Strona ramki',show:false, dane:[{artnr:'1',bez:'wewnątrz',current:false},{artnr:'2',bez:'zewnątrz',current:false},{artnr:'3',bez:'Obustronnie',current:false}]}
+       {nazwa:'kolory',bez:'kolory',dane:[{artnr:'01',bez:'Srebrno-szary',current:false},{artnr:'04',bez:'Orzech',current:true},{artnr:'06',bez:'Złoty Dąb',current:false}]},
+       {nazwa:'klamkakolor',bez:'Kolor klamki',dane:[{artnr:'stz',bez:'Stare złoto',current:true},{artnr:'inox',bez:'inox',current:false},{artnr:'black',bez:'Black',current:false} ]},
+       {nazwa:'inoxkolor',bez:'Kolor ramki', dane:[{artnr:'black',bez:'Black',current:false},{artnr:'inox',bez:'Inox',current:false}]},
+       {nazwa:'inoxstrona',bez:'Strona ramki', dane:[{artnr:'1',bez:'wewnątrz',current:false},{artnr:'2',bez:'zewnątrz',current:false},{artnr:'3',bez:'Obustronnie',current:false}]}
      ],
      current:{dummy:true},
      klamkiorig:[],
@@ -37,7 +37,10 @@ const app = new Vue({
       await this.getWzoryApi();
       await this.getSerieApi();
       await this.getOtwApi();
+      await this.getKlamkiApi();
       // await this.getPivotApi('magnusK');
+
+
 
       this.dane2.find((el)=>el.nazwa=='klamki').dane.map((el)=>
       this.getPivotApi(el.artnr)
