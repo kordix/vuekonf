@@ -8,6 +8,15 @@
     <input class="form-control" name="bez" type="text" id="bez" value="{{ isset($wzor->bez) ? $wzor->bez : ''}}" >
     {!! $errors->first('bez', '<p class="help-block">:message</p>') !!}
 </div>
+<div class="form-group">
+  <label for="typ">Typ</label>
+  <select class="" name="typ">
+    <option value="PCV" @if($wzor->artnr == "PCV") selected @endif>PCV</option>
+    <option value="INOX" @if($wzor->artnr == "PCV") selected @endif>Inox</option>
+    <option value="FI" @if($wzor->artnr == "PCV") selected @endif>Future Inox</option>
+    <option value="GD" @if($wzor->artnr == "PCV") selected @endif>Glass Design</option>
+  </select>
+</div>
 
 
 <div class="form-group">

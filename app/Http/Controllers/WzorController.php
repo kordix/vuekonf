@@ -98,7 +98,6 @@ class WzorController extends Controller
     {
 
         $requestData = $request->all();
-
         $wzor = Wzor::findOrFail($id);
         $wzor->update($requestData);
 

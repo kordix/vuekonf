@@ -29,7 +29,7 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Artnr</th><th>Bez</th><th>Akcje</th>
+                                        <th>#</th><th>Artnr</th><th>Bez</th><th>Typ</th> <th>Akcje</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -37,6 +37,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->artnr }}</td><td>{{ $item->bez }}</td>
+                                        <td>{{$item->typ}}</td>
                                         <td>
                                             <a href="{{ url('/wzor/' . $item->id) }}" title="View Wzor"><button class="btn btn-info btn-sm"> View</button></a>
                                             <a href="{{ url('/wzor/' . $item->id . '/edit') }}" title="Edit Wzor"><button class="btn btn-primary btn-sm"> Edytuj</button></a>
