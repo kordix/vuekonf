@@ -28,7 +28,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::get('/wzory',function(){
-$value = Wzor::all('artnr','bez')->sortBy('artnr')->values();
+$value = Wzor::all('artnr','bez','typ')->sortBy('artnr')->values();
 return $value;
 });
 

@@ -11,6 +11,10 @@ const request = async () => {
 const app = new Vue({
     el: '#app',
     data: {
+      loading:true,
+      info:'',
+      apidebug:true,
+      wzortyp:'',
       dane2:[
        {nazwa:'serie',bez:'Seria', current:true,show:true, dane:[]},
        {nazwa:'modele',bez:'Wzór',dane:[]},
@@ -23,6 +27,7 @@ const app = new Vue({
        {nazwa:'inoxstrona',bez:'Strona ramki', dane:[{artnr:'1',bez:'wewnątrz'},{artnr:'2',bez:'zewnątrz'},{artnr:'3',bez:'Obustronnie'}]}
      ],
      current:{dummy:true},
+     wzoryoryg:[],
      klamkiorig:[],
      stronyorig:[],
      tryb:'all',
@@ -36,32 +41,27 @@ const app = new Vue({
       await this.getOtwApi();
       await this.getKlamkiApi();
 
-      // await this.getPivotAll();
-      // await this.getPivotApi('magnusK');
-
       this.dane2.find((el)=>el.nazwa=='klamki').dane.map((el)=>
       el.wzory = []
     );
-    this.dane2.find((el)=>el.nazwa=='szyba').dane.map((el)=>
-    el.wzory = []
-  );
-  await this.getPivotSzybyAll();
-    await this.getPivotAll();
+      await this.getPivotAll();
+      // await this.getPivotApi('magnusK');
 
-    //   this.dane2.find((el)=>el.nazwa=='klamki').dane.map((el)=>
-    //     await this.getPivotApi(el.artnr);
-    // );
+
+
+  // await this.getPivotSzybyAll();
+    // await this.getPivotAll();
 
       this.dane2.map((el)=>el.dane.map((el)=>Vue.set(el,'show',true )));
       this.dane2.map((el)=>el.dane.map((el)=>Vue.set(el,'current',false )));
       this.dane2.map((el)=>el.available=true);
+      this.wzoryorig =Array.from(this.dane2.find((el)=>el.nazwa=='modele').dane);
       this.klamkiorig =Array.from(this.dane2.find((el)=>el.nazwa=='klamki').dane);
       this.szybyorig =Array.from(this.dane2.find((el)=>el.nazwa=='szyba').dane);
 
 
 },
 mounted:function(){
-
   this.dane2.filter((el,index)=>index>0).map((el)=>Vue.set(el,'current',false) );
 
   this.stronyorig =Array.from(this.dane2.find((el)=>el.nazwa=='inoxstrona').dane);
@@ -113,22 +113,9 @@ watch:{
           all.find((el)=>el.current==true).current=false;
         }
         elem.current=true;
-        //klamki, gałki, pochwyty
-        if(this.dane2[3].dane.find((el)=>el.current==true)){
-          let origin = this.klamkiorig;
-          let sposobotw = this.dane2[3].dane.find((el)=>el.current==true).artnr;
-          let model = this.dane2[1].dane.find((el)=>el.current==true).artnr;
-          this.dane2.find((el)=>el.nazwa=='klamki').dane = origin.filter((el)=>el.typ==sposobotw);
-          this.dane2.find((el)=>el.nazwa=='klamki').dane = this.dane2.find((el)=>el.nazwa=='klamki').dane.filter((el)=>el.wzory.indexOf(model)>=0);
-        }
-        //szyby
-        if(this.dane2[1].dane.find((el)=>el.current==true)){
-          let origin = this.szybyorig;
-          let model = this.dane2[1].dane.find((el)=>el.current==true).artnr;
-          this.dane2.find((el)=>el.nazwa=='szyba').dane = origin;
-          this.dane2.find((el)=>el.nazwa=='szyba').dane = this.dane2.find((el)=>el.nazwa=='szyba').dane.filter((el)=>el.wzory.indexOf(model)>=0);
-        }
         this.getInox();
+        this.getSzyby();
+        this.getKlamki();
         // draw();
       },
       next:function(){
@@ -146,6 +133,12 @@ watch:{
             this.dane2[i].show=true;
           }
         }
+      },
+      filterWzory:function(){
+        console.log('fsda');
+        this.dane2[1].dane = this.wzoryorig;
+        this.dane2[1].dane =this.dane2[1].dane.filter((el)=>el.typ==this.wzortyp);
+        console.log(this.dane2[1].dane.filter((el)=>el.typ==this.wzortyp));
       },
       getInox:function(){
         if(this.dane2.find((el)=>el.nazwa=='modele').dane.find((el)=>el.current==true) ){
@@ -168,7 +161,25 @@ watch:{
           }
         }
       },
+      getKlamki:function(){
+        if(this.dane2[3].dane.find((el)=>el.current==true)){
+          let origin = this.klamkiorig;
+          let sposobotw = this.dane2[3].dane.find((el)=>el.current==true).artnr;
+          let model = this.dane2[1].dane.find((el)=>el.current==true).artnr;
+          this.dane2.find((el)=>el.nazwa=='klamki').dane = origin.filter((el)=>el.typ==sposobotw);
+          this.dane2.find((el)=>el.nazwa=='klamki').dane = this.dane2.find((el)=>el.nazwa=='klamki').dane.filter((el)=>el.wzory.indexOf(model)>=0);
+        }
+      },
+      getSzyby:function(){
+        if(this.dane2[1].dane.find((el)=>el.current==true)){
+          let origin = this.szybyorig;
+          let model = this.dane2[1].dane.find((el)=>el.current==true).artnr;
+          this.dane2.find((el)=>el.nazwa=='szyba').dane = origin;
+          this.dane2.find((el)=>el.nazwa=='szyba').dane = this.dane2.find((el)=>el.nazwa=='szyba').dane.filter((el)=>przypisaniaszyb[model].indexOf(el.artnr)>=0);
+        }
+      },
       getWzoryApi: async function()  {
+        if(this.apidebug){console.log('getwzoryapi')};
         const request = async () => {
             const response = await fetch(`/api/wzory`);
             const json = await response.json();
@@ -178,6 +189,7 @@ watch:{
         await request();
       },
       getSerieApi: async function()  {
+        if(this.apidebug){console.log('getSerieApi')};
         const request = async () => {
             const response = await fetch(`/api/seria`);
             const json = await response.json();
@@ -187,6 +199,7 @@ watch:{
         await request();
       },
       getOtwApi: async function()  {
+      if(this.apidebug){console.log('getOtwApi')};
         const request = async () => {
             const response = await fetch(`/api/sposobotw`);
             const json = await response.json();
@@ -196,6 +209,8 @@ watch:{
         await request();
       },
       getKlamkiApi: async function()  {
+        if(this.apidebug){console.log('getKlamkiApi')};
+
         const request = async () => {
             const response = await fetch(`/api/klamki`);
             const json = await response.json();
@@ -203,6 +218,7 @@ watch:{
             json.map((el)=>this.dane2.find((el)=>el.nazwa=='klamki').dane.push(el));
         }
         await request();
+        this.loading = false;
       },
       getPivotApi:async function(klamka){
         const request = async () => {
@@ -215,11 +231,13 @@ watch:{
         await request();
       },
       getPivotAll:async function(){
+        this.info='loading pivot';
         let tab = this.dane2.find((el)=>el.nazwa=='klamki').dane;
 
         for(let i=0;i<tab.length;i++){
           await this.getPivotApi(tab[i].artnr);
         }
+        this.info = '';
 
       },
       getSzybyApi:async function(){
@@ -230,26 +248,8 @@ watch:{
             json.map((el)=>this.dane2.find((el)=>el.nazwa=='szyba').dane.push(el));
         }
         await request();
-      },
-      getPivotSzybyApi:async function(szyba){
-        const request = async () => {
-          console.log('1');
-            const response = await fetch(`/api/szybapivot/${szyba}`);
-            const json = await response.json();
-            console.log(json);
-            json.map((el)=>
-            this.dane2.find((el)=>el.nazwa=='szyba').dane.find((el)=>el.artnr==szyba).wzory.push(el)
-          )
-        }
-        await request();
-      },
-      getPivotSzybyAll:async function(){
-        let tab = this.dane2.find((el)=>el.nazwa=='szyba').dane;
-
-        for(let i=0;i<tab.length;i++){
-          await this.getPivotSzybyApi(tab[i].artnr);
-        }
       }
+
     }
 
 

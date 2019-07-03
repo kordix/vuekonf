@@ -18,12 +18,12 @@ class WzorController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->get('search');
-        $perPage = 25;
+        $perPage = 300;
 
         if (!empty($keyword)) {
             $wzor = Wzor::where('artnr', 'LIKE', "%$keyword%")
-                ->orWhere('bez', 'LIKE', "%$keyword%")
-                ->latest()->paginate($perPage);
+                ->orWhere('bez', 'LIKE', "%$keyword%")->orderBy('artnr');
+
         } else {
             $wzor = Wzor::latest()->paginate($perPage);
         }
@@ -50,9 +50,9 @@ class WzorController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $requestData = $request->all();
-        
+
         Wzor::create($requestData);
 
         return redirect('wzor')->with('flash_message', 'Wzor added!');
@@ -96,9 +96,9 @@ class WzorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         $requestData = $request->all();
-        
+
         $wzor = Wzor::findOrFail($id);
         $wzor->update($requestData);
 

@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
+
+
   <div class="container">
     <div class="row">
 
@@ -9,8 +12,26 @@
 
 
 <div class="" id="app">
-  <transition-group name="fade" tag="div" class="row" style="margin-left:0px;padding-left:0px">
+  <div class="" v-if="loading">
+    Ładowanie...
+  </div>
+  <div class="" v-if="info">
+  @{{info}}
+  </div>
+  <transition class="" name="fade" tag="div" >
+    <div class="" v-if="dane2[1].current==true">
 
+  <select class="" name="" v-model="wzortyp" @change="filterWzory">
+    <option value="PCV">PCV</option>
+    <option value="INOX">Inox</option>
+    <option value="FI">Future Inox</option>
+    <option value="GD">Glass Design</option>
+  </select>
+  <button type="button" @click="filterWzory" name="button">Filtruj</button>
+</div>
+
+</transition>
+  <transition-group name="fade" tag="div" class="row" style="margin-left:0px;padding-left:0px">
 <div class="mycontrol" :class="{mycontrolactive:item.current}" v-for="item in dane2.filter((el)=>el.available==true).filter((el)=>el.show == true)" :key="item.nazwa"  style="width:150px;position:relative"   v-on:click="setscroller(item)" tabindex="0">
 @{{item.bez}}  <i class="arrow down"></i>
 </div>
@@ -40,11 +61,12 @@
 
 </div>
 
-  <div class="row">
 
-  <button type="button" class="btn btn-primary ml-auto" name="button" @click="next">Dalej</button>
+
 </div>
+<div class="row">
 
+<button type="button" class="btn btn-primary ml-auto" name="button" @click="next">Dalej</button>
 </div>
 </div>
 
@@ -91,6 +113,9 @@
 @section('scripts')
   <script src="{{ asset('js/app.js') }}"></script>
   <script src="{{ asset('js/vue.js') }}"></script>
+  <script src="{{asset('js/dane.js')}}">
+
+  </script>
   <script src="{{ asset('js/konf2.js') }}" defer></script>\
   <script src="https://unpkg.com/konva@3.3.3/konva.min.js" defer></script>
   <script src="{{asset('js/konva.js')}}" defer></script>
