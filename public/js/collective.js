@@ -29,3 +29,6 @@ getPivotSzybyAll:async function(){
     await this.getPivotSzybyApi(tab[i].artnr);
   }
 }
+
+
+:src="'images/'+dane2.find((el)=>el.current==true).nazwa+'/'+item.artnr+'.png' " 

@@ -16,9 +16,9 @@ const app = new Vue({
       apidebug:true,
       wzortyp:'',
       dane2:[
-       {nazwa:'serie',bez:'Seria', current:true,show:true, dane:[]},
-       {nazwa:'modele',bez:'Wzór',dane:[]},
-       {nazwa:'szyba',bez:'Przeszklenie',dane:[]},
+       {nazwa:'serie',bez:'Seria',folder:'Serie',current:true,show:true, dane:[]},
+       {nazwa:'modele',bez:'Wzór',folder:'Wzory%20drzwi',dane:[]},
+       {nazwa:'szyba',bez:'Przeszklenie',folder:'Przeszklenia',dane:[]},
        {nazwa:'sposobyotw',bez:'Sposób otw.',dane:[]},
        {nazwa:'klamki',bez:'Klamka',dane:[]},
        {nazwa:'kolory',bez:'kolory',dane:[{artnr:'01',bez:'Srebrno-szary'},{artnr:'04',bez:'Orzech'},{artnr:'06',bez:'Złoty Dąb'}]},
@@ -175,7 +175,12 @@ watch:{
           let origin = this.szybyorig;
           let model = this.dane2[1].dane.find((el)=>el.current==true).artnr;
           this.dane2.find((el)=>el.nazwa=='szyba').dane = origin;
+          try{
           this.dane2.find((el)=>el.nazwa=='szyba').dane = this.dane2.find((el)=>el.nazwa=='szyba').dane.filter((el)=>przypisaniaszyb[model].indexOf(el.artnr)>=0);
+        }catch(e){
+            console.log('nie ma odpowiedniego przypisania szyb dla wzoru '+model);
+            console.log(przypisaniaszyb['3']);
+          }
         }
       },
       getWzoryApi: async function()  {

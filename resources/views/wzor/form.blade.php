@@ -11,10 +11,10 @@
 <div class="form-group">
   <label for="typ">Typ</label>
   <select class="" name="typ">
-    <option value="PCV" @if($wzor->artnr == "PCV") selected @endif>PCV</option>
-    <option value="INOX" @if($wzor->artnr == "PCV") selected @endif>Inox</option>
-    <option value="FI" @if($wzor->artnr == "PCV") selected @endif>Future Inox</option>
-    <option value="GD" @if($wzor->artnr == "PCV") selected @endif>Glass Design</option>
+    <option value="PCV" @if($wzor->typ == "PCV") selected @endif>PCV</option>
+    <option value="INOX" @if($wzor->typ == "INOX") selected @endif>Inox</option>
+    <option value="FI" @if($wzor->typ == "FI") selected @endif>Future Inox</option>
+    <option value="GD" @if($wzor->typ == "GD") selected @endif>Glass Design</option>
   </select>
 </div>
 

@@ -50,7 +50,9 @@
   <div v-for="item in dane2.find((el)=>el.current==true).dane.filter((el)=>el.show==true)" v-bind:key="item.artnr"   class="col-md-3" v-on:click="handleitemclick(item,dane2.find((el)=>el.current==true).dane)" v-bind:class="{active:item.current}" >
       <b><p style="text-align:center;margin-bottom:0px">@{{item.bez}}</p></b>
       {{-- <img :src="'images/'+dane2.find((el)=>el.current==true).nazwa+'/'+item.artnr+'.png' " alt=""> --}}
-      <img class="img-fluid" :src="'images/'+dane2.find((el)=>el.current==true).nazwa+'/'+item.artnr+'.png' " >
+
+      <img v-if="dane2.find((el)=>el.nazwa=='szyba').current==false" class="img-fluid" :src="'https://zamowienia.wiked.pl/Web.Web/content/options/ZUBBMP/WIKED/'+dane2.find((el)=>el.current==true).folder+'/'+item.artnr+'.jpg.png' " >
+      <img v-else class="img-fluid"  :src="'https://zamowienia.wiked.pl/Web.Web/content/options/ZUBBMP/WIKED/'+dane2.find((el)=>el.current==true).folder+'/'+dane2[1].dane.find((el)=>el.current==true).artnr+'_'+item.artnr+'.jpg.png' ">
      {{-- <img class="img-fluid" src="{{asset('./images/test.png' )}}"> --}}
   {{-- <p v-bind:class="{active:item.current}" v-on:click="handleitemclick(item,dane2.find((el)=>el.current==true).dane)" >@{{item.bez}}</p> --}}
 
