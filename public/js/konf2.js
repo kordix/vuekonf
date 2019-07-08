@@ -181,48 +181,53 @@ watch:{
         console.log(this.dane2[1].dane.filter((el)=>el.typ==this.wzortyp));
       },
       getInox:function(){
-        if(this.dane2.find((el)=>el.nazwa=='modele').dane.find((el)=>el.current==true) ){
-          let origin = this.stronyorig;
-          let model = this.dane2.find((el)=>el.nazwa=='modele').dane.find((el)=>el.current==true).artnr;
-          if(this.inoxlista.indexOf(model)>0){
-            this.dane2.find((el)=>el.nazwa=='inoxkolor').available=true;
-            this.dane2.find((el)=>el.nazwa=='inoxstrona').available=true;
-
-            if (model=='F3B'){
-              let origin = this.stronyorig;
-              this.dane2.find((el)=>el.nazwa=='inoxstrona').dane = origin.filter((el)=>el.artnr=='3');
-            }else{
-              this.dane2.find((el)=>el.nazwa=='inoxstrona').dane = origin;
+             let aktywnymodel = this.dane2.find((el)=>el.nazwa=='modele').dane.find((el)=>el.current==true);
+             if(aktywnymodel){
+               let origin = this.stronyorig;
+               let modelart = aktywnymodel.artnr;
+               let inoxkolorgroup = this.dane2.find((el)=>el.nazwa=='inoxkolor');
+               let inoxstronagroup = this.dane2.find((el)=>el.nazwa=='inoxstrona');
+               if(this.inoxlista.indexOf(modelart)>0){
+                 inoxkolorgroup.available=true;
+                 inoxstronagroup.available=true;
+                 if (modelart=='F3B'){
+                   let origin = this.stronyorig;
+                   inoxstronagroup.dane = origin.filter((el)=>el.artnr=='3');
+                 }else{
+                   inoxstronagroup.dane = origin;
+                 }
+               }else{
+                 inoxkolorgroup.available=false;
+                 inoxstronagroup.available=false;
+               }
+             }
+           },
+           getKlamki:function(){
+            let currentsposobotw =  this.dane2[3].dane.find((el)=>el.current==true);
+            let currentmodel = this.dane2[1].dane.find((el)=>el.current==true);
+            let klamkigrupa = this.dane2.find((el)=>el.nazwa=='klamki');
+            if(currentsposobotw && currentmodel){
+              let origin = this.klamkiorig;
+              let sposobotw = currentsposobotw.artnr;
+              klamkigrupa.dane = origin.filter((el)=>el.typ==currentsposobotw.artnr); //klamki KK,KP itd.
+              klamkigrupa.dane = klamkigrupa.dane.filter((el)=>el.wzory.indexOf(currentmodel.artnr)>=0); //klamki pasujące do wybranego wzoru
             }
+          },
+          getSzyby:function(){
+            let currentmodel = this.dane2[1].dane.find((el)=>el.current==true);
+            let szybygrupa = this.dane2.find((el)=>el.nazwa=='szyba');
 
-          }else{
-            this.dane2.find((el)=>el.nazwa=='inoxkolor').available=false;
-            this.dane2.find((el)=>el.nazwa=='inoxstrona').available=false;
-          }
-        }
-      },
-      getKlamki:function(){
-        if(this.dane2[3].dane.find((el)=>el.current==true)){
-          let origin = this.klamkiorig;
-          let sposobotw = this.dane2[3].dane.find((el)=>el.current==true).artnr;
-          let model = this.dane2[1].dane.find((el)=>el.current==true).artnr;
-          this.dane2.find((el)=>el.nazwa=='klamki').dane = origin.filter((el)=>el.typ==sposobotw);
-          this.dane2.find((el)=>el.nazwa=='klamki').dane = this.dane2.find((el)=>el.nazwa=='klamki').dane.filter((el)=>el.wzory.indexOf(model)>=0);
-        }
-      },
-      getSzyby:function(){
-        if(this.dane2[1].dane.find((el)=>el.current==true)){
-          let origin = this.szybyorig;
-          let model = this.dane2[1].dane.find((el)=>el.current==true).artnr;
-          this.dane2.find((el)=>el.nazwa=='szyba').dane = origin;
-          try{
-          this.dane2.find((el)=>el.nazwa=='szyba').dane = this.dane2.find((el)=>el.nazwa=='szyba').dane.filter((el)=>przypisaniaszyb[model].indexOf(el.artnr)>=0);
-        }catch(e){
-            console.log('nie ma odpowiedniego przypisania szyb dla wzoru '+model);
-            console.log(przypisaniaszyb['3']);
-          }
-        }
-      },
+            if(currentmodel){
+              let origin = this.szybyorig;
+              let model = currentmodel.artnr;
+              szybygrupa.dane = origin;
+              try{
+              szybygrupa.dane = szybygrupa.dane.filter((el)=>przypisaniaszyb[model].indexOf(el.artnr)>=0);
+              }catch(e){
+                console.log('nie ma odpowiedniego przypisania szyb dla wzoru '+model);
+              }
+            }
+          },
       getWzoryApi: async function()  {
         if(this.apidebug){console.log('getwzoryapi')};
         const request = async () => {
