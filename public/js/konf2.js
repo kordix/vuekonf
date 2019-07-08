@@ -13,13 +13,14 @@ const app = new Vue({
     data: {
       loading:true,
       info:'',
+      clicktest:false,
       apidebug:true,
       wzortyp:'',
       dane2:[
        {nazwa:'serie',bez:'Seria',folder:'Serie',current:true,show:true, dane:[]},
        {nazwa:'modele',bez:'Wzór',folder:'Wzory%20drzwi',dane:[]},
        {nazwa:'szyba',bez:'Przeszklenie',folder:'Przeszklenia',dane:[]},
-       {nazwa:'sposobyotw',bez:'Sposób otw.',dane:[]},
+       {nazwa:'sposobyotw',bez:'Sposób otw.',folder:'Grafiki%20pogl%C4%85dowe',dane:[]},
        {nazwa:'klamki',bez:'Klamka',dane:[]},
        {nazwa:'kolory',bez:'kolory',dane:[{artnr:'01',bez:'Srebrno-szary'},{artnr:'04',bez:'Orzech'},{artnr:'06',bez:'Złoty Dąb'}]},
        {nazwa:'klamkakolor',bez:'Kolor klamki',dane:[{artnr:'stz',bez:'Stare złoto'},{artnr:'inox',bez:'inox'},{artnr:'black',bez:'Black'} ]},
@@ -31,6 +32,7 @@ const app = new Vue({
      klamkiorig:[],
      stronyorig:[],
      tryb:'all',
+     apiRestoreObject:{},
     inoxlista:['50','12','12A','12B','12C','20','F3B','F3C'],
     },
     created: async function () {
@@ -46,35 +48,20 @@ const app = new Vue({
     );
       await this.getPivotAll();
       // await this.getPivotApi('magnusK');
-
-
-
   // await this.getPivotSzybyAll();
     // await this.getPivotAll();
-
       this.dane2.map((el)=>el.dane.map((el)=>Vue.set(el,'show',true )));
       this.dane2.map((el)=>el.dane.map((el)=>Vue.set(el,'current',false )));
       this.dane2.map((el)=>el.available=true);
       this.wzoryorig =Array.from(this.dane2.find((el)=>el.nazwa=='modele').dane);
       this.klamkiorig =Array.from(this.dane2.find((el)=>el.nazwa=='klamki').dane);
       this.szybyorig =Array.from(this.dane2.find((el)=>el.nazwa=='szyba').dane);
-
-
 },
 mounted:function(){
   this.dane2.filter((el,index)=>index>0).map((el)=>Vue.set(el,'current',false) );
 
   this.stronyorig =Array.from(this.dane2.find((el)=>el.nazwa=='inoxstrona').dane);
   this.gettryb();
-
-
-  // this.getWzoryApi();
-
-  // fetch(`/api/wzory/`)
-  //   .then(resp => resp.json()).then(resp => {
-  //     this.dane2[1].dane.push(resp[0]);
-  //   });
-
 },
 watch:{
   tryb:{
@@ -84,8 +71,60 @@ watch:{
   }
 },
     methods:{
+      storeApi:function(){
+        fetch(url, {
+           headers: {
+             "Content-Type": "application/json",
+             "Accept": "application/json, text-plain, */*",
+             "X-Requested-With": "XMLHttpRequest",
+             "X-CSRF-TOKEN": token
+            },
+           method: 'post',
+           credentials: "same-origin",
+           body: JSON.stringify({
+             seria: this.getC('serie') ,
+             model: this.getC('modele'),
+             szyba:this.getC('szyba'),
+             sposobotw:this.getC('sposobyotw'),
+             klamka:this.getC('klamki'),
+             kolor:this.getC('kolory'),
+             inoxkolor:this.getC('inoxkolor'),
+             inoxstrona:this.getC('inoxstrona')
+           })
+          })
+           .then((data) => {console.log(data);}).catch(function(error) {console.log(error);});
+      },
+      getDoorApi:function(){
+        fetch(`/api/getdoor/${document.getElementById('idd').value}`).then(res=>res.json()).then(res=>this.apiRestoreObject=res).then(res=>this.loadDoor());
+      },
+      getC:function(cat){
+        console.log(cat);
+        console.log(this.dane2.find((el)=>el.nazwa==cat).dane.find((el)=>el.current==true).artnr);
+        return this.dane2.find((el)=>el.nazwa==cat).dane.find((el)=>el.current==true).artnr;
+
+      },
+      loadDoor:function(){
+        try{
+        this.dane2.find((el)=>el.nazwa=='serie').dane.find((el)=>el.artnr==this.apiRestoreObject.seria).current = true;
+        this.dane2.find((el)=>el.nazwa=='modele').dane.find((el)=>el.artnr==this.apiRestoreObject.model).current = true;
+        this.dane2.find((el)=>el.nazwa=='szyba').dane.find((el)=>el.artnr==this.apiRestoreObject.szyba).current = true;
+        this.dane2.find((el)=>el.nazwa=='sposobyotw').dane.find((el)=>el.artnr==this.apiRestoreObject.sposobotw).current = true;
+        this.dane2.find((el)=>el.nazwa=='klamki').dane.find((el)=>el.artnr==this.apiRestoreObject.klamka).current = true;
+        this.dane2.find((el)=>el.nazwa=='kolory').dane.find((el)=>el.artnr==this.apiRestoreObject.kolor).current = true;
+        this.dane2.find((el)=>el.nazwa=='inoxkolor').dane.find((el)=>el.artnr==this.apiRestoreObject.inoxkolor).current = true;
+        this.dane2.find((el)=>el.nazwa=='inoxstrona').dane.find((el)=>el.artnr==this.apiRestoreObject.inoxstrona).current = true;
+        this.getInox();
+        this.getSzyby();
+        this.getKlamki();
+      }catch(e){
+        console.log(e.message);
+      }
+      },
       logvue:function(){
         console.log(this.$data);
+      },
+      testapival:function(){
+        return 'wartosc do api z funkcji'
       },
       store:function(){
         localStorage.test=this.dane2[1].dane.findIndex((el)=>el.current==true);
@@ -98,7 +137,8 @@ watch:{
         }
       },
       test2:function(){
-        this.getPivotSzybyApi('00');
+        console.log(this.getC('modele'));
+        // this.getPivotSzybyApi('00');
         // Vue.set(app.items[0], 'current', false)
       },
       test:function(){

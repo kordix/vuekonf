@@ -4,8 +4,8 @@ use Illuminate\Http\Request;
 use App\Wzor;
 use App\Handle;
 use App\Szyba;
-
-
+use App\Apitest;
+use App\Door;
 use App\Serium;
 use App\Sposobotw;
 
@@ -28,7 +28,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::get('/wzory',function(){
-$value = Wzor::all('artnr','bez','typ')->sortBy('artnr')->values();
+$value = Wzor::all('artnr','bez','typ','odpszyb')->sortBy('artnr')->values();
 return $value;
 });
 
@@ -60,4 +60,22 @@ return $value;
 Route::get('/szybapivot/{artnr}',function($artnr){
 $value = Szyba::where('artnr','=',$artnr)->firstOrFail()->wzory->pluck('artnr');
 return $value;
+});
+
+Route::post('/storedoor',function(){
+  Door::create([
+      'seria'=>request('seria'),
+      'model'=>request('model'),
+      'szyba'=>request('szyba'),
+      'sposobotw'=>request('sposobotw'),
+      'klamka'=>request('klamka'),
+      'kolor'=>request('kolor'),
+      'inoxkolor'=>request('inoxkolor'),
+      'inoxstrona'=>request('inoxstrona')
+  ]);
+});
+
+Route::get('/getdoor/{id}',function($id){
+  $door = Door::find($id);
+  return $door;
 });

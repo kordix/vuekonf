@@ -17,6 +17,10 @@
     <option value="GD" @if($wzor->typ == "GD") selected @endif>Glass Design</option>
   </select>
 </div>
+<div class="form-group">
+  <label for="">Odpowiednik szyb:</label>
+  <input type="text" class="form-control" name="odpszyb" value="{{ isset($wzor->odpszyb) ? $wzor->odpszyb : ''}}">
+</div>
 
 
 <div class="form-group">

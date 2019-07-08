@@ -1,5 +1,5 @@
 <?php
-
+use App\Wzor;
 
 
 /*
@@ -19,6 +19,8 @@
 
 Route::view('/vue', 'vuetest');
 Route::view('/', 'konfigurator');
+Route::get('/edit/{id}', 'DoorController@edit');
+
 Route::view('/apitest', 'apitest');
 
 Auth::routes();
@@ -38,3 +40,15 @@ Route::post('/storeszybapivot', 'SzybaController@storepivot')->name('storeszybap
 
 
 Route::resource('szyba', 'SzybaController');
+
+Route::get('/wzorytest',function(){
+$value = Wzor::firstOrFail();
+dd($value);
+});
+
+
+Route::resource('door','DoorController');
+
+Route::get('/apit', function () {
+    return view('apitestvue');
+});

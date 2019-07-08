@@ -25,7 +25,7 @@ class Wzor extends Model
      *
      * @var array
      */
-    protected $fillable = ['artnr', 'bez'];
+    protected $fillable = ['artnr', 'bez','typ','odpszyb'];
 
-    
+
 }

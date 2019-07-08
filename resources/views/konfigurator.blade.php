@@ -4,6 +4,9 @@
 
 
 
+<input type="hidden" name="id" id="idd" value="{{ isset($id) ? $id : ''}}">
+
+
   <div class="container">
     <div class="row">
 
@@ -48,11 +51,11 @@
       <transition-group name="test" tag="div" class="row" style="margin-left:0px;padding-left:0px">
 
   <div v-for="item in dane2.find((el)=>el.current==true).dane.filter((el)=>el.show==true)" v-bind:key="item.artnr"   class="col-md-3" v-on:click="handleitemclick(item,dane2.find((el)=>el.current==true).dane)" v-bind:class="{active:item.current}" >
-      <b><p style="text-align:center;margin-bottom:0px">@{{item.bez}}</p></b>
+      <b><p style="text-align:center;margin-bottom:0px">@{{item.bez}}</p> </b>
       {{-- <img :src="'images/'+dane2.find((el)=>el.current==true).nazwa+'/'+item.artnr+'.png' " alt=""> --}}
 
       <img v-if="dane2.find((el)=>el.nazwa=='szyba').current==false" class="img-fluid" :src="'https://zamowienia.wiked.pl/Web.Web/content/options/ZUBBMP/WIKED/'+dane2.find((el)=>el.current==true).folder+'/'+item.artnr+'.jpg.png' " >
-      <img v-else class="img-fluid"  :src="'https://zamowienia.wiked.pl/Web.Web/content/options/ZUBBMP/WIKED/'+dane2.find((el)=>el.current==true).folder+'/'+dane2[1].dane.find((el)=>el.current==true).artnr+'_'+item.artnr+'.jpg.png' ">
+      <img v-else class="img-fluid"  :src="'https://zamowienia.wiked.pl/Web.Web/content/options/ZUBBMP/WIKED/'+dane2.find((el)=>el.current==true).folder+'/'+dane2[1].dane.find((el)=>el.current==true).odpszyb+'_'+item.artnr+'.jpg.png' ">
      {{-- <img class="img-fluid" src="{{asset('./images/test.png' )}}"> --}}
   {{-- <p v-bind:class="{active:item.current}" v-on:click="handleitemclick(item,dane2.find((el)=>el.current==true).dane)" >@{{item.bez}}</p> --}}
 
@@ -85,20 +88,27 @@
 </div>
 <div class="" id="podsumowanie">
   <p>Podsumowanie:</p>
-<p v-for="item in dane2.filter((el)=>el.available==true).filter((el)=>el.show == true)">
-<span style="font-weight:bold">@{{item.bez}}:</span> <span v-for="item in item.dane"><span v-if="item.current==true">@{{item.bez}}</span></span>
-</p>
+  <transition-group name="test" tag="div" style="margin-left:0px;padding-left:0px">
+<div v-for="item in dane2.filter((el)=>el.available==true).filter((el)=>el.show == true)" v-bind:key="item.nazwa">
+<span style="font-weight:bold">@{{item.bez}}:</span><span v-for="item in item.dane"><transition name="test"> <span v-if="item.current==true">@{{item.bez}}</span></transition></span>
+</div>
+</transition-group>
 
 
+
 </div>
 </div>
 </div>
+<label for="">Tryb edycji:</label>
 <select class="form-control" name="tryb" id="trybselect" style="width:100px" v-model="tryb">
   <option value="all">Całość</option>
   <option value="step">Krok po kroku</option>
 </select>
+<p></p>
 <button type="button" name="button" @click="gettryb">Zmień tryb</button>
-<button type="button" name="button" v-on:click="test2">test</button>
+<button type="button" name="button" v-on:click="storeApi">Zapisz</button>
+<button type="button" name="button" v-on:click="getDoorApi">getDoorApi</button>
+<button type="button" name="button" v-on:click="loadDoor">loadDoor</button>
 <button type="button" name="button" v-on:click="store">store</button>
 <button type="button" name="button" v-on:click="restore">restore</button>
 <button type="button" name="button" v-on:click="logvue">vuelog</button>
