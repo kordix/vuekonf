@@ -1,5 +1,12 @@
 <?php
 use App\Wzor;
+use App\Handle;
+use App\Szyba;
+use App\Apitest;
+use App\Door;
+use App\Serium;
+use App\Sposobotw;
+
 
 
 /*
@@ -22,6 +29,8 @@ Route::view('/', 'konfigurator');
 Route::get('/edit/{id}', 'DoorController@edit');
 
 Route::view('/apitest', 'apitest');
+Route::view('/apitestall', 'apitestall');
+
 
 Auth::routes();
 
@@ -51,4 +60,40 @@ Route::resource('door','DoorController');
 
 Route::get('/apit', function () {
     return view('apitestvue');
+});
+
+
+Route::get('bezapi/wzory',function(){
+$value = Wzor::all('artnr','bez','typ','odpszyb')->sortBy('artnr')->values();
+return $value;
+});
+
+Route::get('bezapi/seria',function(){
+$value = Serium::all('artnr','bez')->sortBy('artnr')->values();
+return $value;
+});
+
+Route::get('bezapi/sposobotw',function(){
+$value = Sposobotw::all('artnr','bez')->sortBy('artnr')->values();
+return $value;
+});
+
+Route::get('bezapi/klamki',function(){
+$value = Handle::all('artnr','bez','typ')->sortBy('artnr')->values();
+return $value;
+});
+
+Route::get('bezapi/szyba',function(){
+$value = Szyba::all('artnr','bez')->sortBy('artnr')->values();
+return $value;
+});
+
+Route::get('bezapi/klamkipivot/{artnr}',function($artnr){
+$value = Handle::where('artnr','=',$artnr)->firstOrFail()->wzory->pluck('artnr');
+return $value;
+});
+
+Route::get('bezapi/szybapivot/{artnr}',function($artnr){
+$value = Szyba::where('artnr','=',$artnr)->firstOrFail()->wzory->pluck('artnr');
+return $value;
 });

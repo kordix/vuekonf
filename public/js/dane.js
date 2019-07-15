@@ -41,14 +41,14 @@ przypisaniaszyb['25A']=['00' ,'06','10','13','16','19'];
 przypisaniaszyb['25B']=['00' ,'06','10','13','16','19'];
 przypisaniaszyb['25C']=['00' ,'06','10','13','16','19'];
 przypisaniaszyb['26']=['00','06','10','13','16','19'];
-przypisaniaszyb['26A']=przypisaniaszyb['26'];
-przypisaniaszyb['26B']=przypisaniaszyb['26'];
-przypisaniaszyb['26C']=przypisaniaszyb['26'];
-przypisaniaszyb['26D']=przypisaniaszyb['26'];
-przypisaniaszyb['26E']=przypisaniaszyb['26'];
-przypisaniaszyb['26F']=przypisaniaszyb['26'];
-przypisaniaszyb['26G']=przypisaniaszyb['26'];
-przypisaniaszyb['26H']=przypisaniaszyb['26'];
+przypisaniaszyb['26A']=Array.from(przypisaniaszyb['26']);
+przypisaniaszyb['26B']=Array.from(przypisaniaszyb['26']);
+przypisaniaszyb['26C']=Array.from(przypisaniaszyb['26']);
+przypisaniaszyb['26D']=Array.from(przypisaniaszyb['26']);
+przypisaniaszyb['26E']=Array.from(przypisaniaszyb['26']);
+przypisaniaszyb['26F']=Array.from(przypisaniaszyb['26']);
+przypisaniaszyb['26G']=Array.from(przypisaniaszyb['26']);
+przypisaniaszyb['26H']=Array.from(przypisaniaszyb['26']);
 przypisaniaszyb['27']=['00'];
 przypisaniaszyb['28']=['00'];
 przypisaniaszyb['29']=['00','10','11','12','13','14','16','19'];
@@ -115,6 +115,8 @@ przypisaniaszyb['GD01C']=['30'];
 przypisaniaszyb['GD02A']=['30'];
 przypisaniaszyb['GD02B']=['30'];
 przypisaniaszyb['GD03A']=['30'];
+
+
 
 let token = document.getElementsByName("csrf-token")[0].getAttribute('content');
 let url = '/api/storedoor';

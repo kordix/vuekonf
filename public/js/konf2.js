@@ -50,17 +50,18 @@ const app = new Vue({
       // await this.getPivotApi('magnusK');
   // await this.getPivotSzybyAll();
     // await this.getPivotAll();
-      this.dane2.map((el)=>el.dane.map((el)=>Vue.set(el,'show',true )));
-      this.dane2.map((el)=>el.dane.map((el)=>Vue.set(el,'current',false )));
-      this.dane2.map((el)=>el.available=true);
+      this.dane2.map((el)=>el.dane.map((el)=>Vue.set(el,'show',true ))); //dodajemy właściwość show dla pojedynczych elementów
+      this.dane2.map((el)=>el.dane.map((el)=>Vue.set(el,'current',false ))); //dodajemy właściwość current dla pojedynczych elementów
+      this.dane2.map((el)=>el.available=true); //wszystkie kategorie mają właściwośćavailable
       this.wzoryorig =Array.from(this.dane2.find((el)=>el.nazwa=='modele').dane);
       this.klamkiorig =Array.from(this.dane2.find((el)=>el.nazwa=='klamki').dane);
       this.szybyorig =Array.from(this.dane2.find((el)=>el.nazwa=='szyba').dane);
+
 },
 mounted:function(){
-  this.dane2.filter((el,index)=>index>0).map((el)=>Vue.set(el,'current',false) );
+  this.dane2.filter((el,index)=>index>0).map((el)=>Vue.set(el,'current',false) ); //dodajemy właściwość current do wszystkich kategorii poza serią
 
-  this.stronyorig =Array.from(this.dane2.find((el)=>el.nazwa=='inoxstrona').dane);
+  this.stronyorig =Array.from(this.dane2.find((el)=>el.nazwa=='inoxstrona').dane) ;
   this.gettryb();
 },
 watch:{
@@ -274,6 +275,7 @@ watch:{
         const request = async () => {
             const response = await fetch(`/api/klamkipivot/${klamka}`);
             const json = await response.json();
+            console.log(json);
             json.map((el)=>
             this.dane2.find((el)=>el.nazwa=='klamki').dane.find((el)=>el.artnr==klamka).wzory.push(el)
           )
@@ -301,8 +303,4 @@ watch:{
       }
 
     }
-
-    //testbranch
-
-
 });
