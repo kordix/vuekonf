@@ -71,6 +71,25 @@ watch:{
     }
   }
 },
+computed:{
+// currentSotw{
+//   return this.dane.find((el)=>el.nazwa='sposobyotw')
+// }
+test1(){
+  return this.info;
+},
+currentCat(){
+  return this.dane2.find((el)=>el.current==true)
+},
+scrollerFilter(){
+  return this.dane2.find((el)=>el.current==true).dane.filter((el)=>el.show==true)
+},
+test2(){
+  return this.test1;
+}
+
+},
+
     methods:{
       storeApi:function(){
         fetch(url, {
