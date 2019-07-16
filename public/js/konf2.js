@@ -65,6 +65,12 @@ mounted:function(){
   this.gettryb();
 },
 watch:{
+  // dane2:{
+  //   deep:true,
+  //   handler:function(){
+  //       this.dane2.find((el)=>el.nazwa=='klamki').dane = this.klamkicomputed
+  //   }
+  // },
   tryb:{
     handler:function(){
       localStorage.tryb = this.tryb
@@ -78,14 +84,20 @@ computed:{
 test1(){
   return this.info;
 },
+test2(){
+  return this.test1;
+},
 currentCat(){
   return this.dane2.find((el)=>el.current==true)
+},
+currentsposobotwc(){
+  return this.dane2.find((el)=>el.nazwa=='sposobyotw').dane.find((el)=>el.current==true);
 },
 scrollerFilter(){
   return this.dane2.find((el)=>el.current==true).dane.filter((el)=>el.show==true)
 },
-test2(){
-  return this.test1;
+klamkicomputed(){
+  return this.dane2.find((el)=>el.nazwa=='klamki').dane.filter((el)=>el.typ==this.currentsposobotwc.artnr)
 }
 
 },
@@ -175,7 +187,7 @@ test2(){
         elem.current=true;
         this.getInox();
         this.getSzyby();
-        this.getKlamki();
+        // this.getKlamki();
         // draw();
       },
       next:function(){

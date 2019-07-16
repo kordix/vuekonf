@@ -24,6 +24,9 @@ use App\Sposobotw;
 //     return view('welcome');
 // });
 
+Route::view('/computed', 'computed');
+Route::view('/computed2', 'computed2');
+
 Route::view('/vue', 'vuetest');
 Route::view('/', 'konfigurator');
 Route::get('/edit/{id}', 'DoorController@edit');

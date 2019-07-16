@@ -15,7 +15,7 @@
 
 
 <div class="" id="app">
-  @{{test2}}
+  {{-- @{{test2}} --}}
   <div class="" v-if="loading">
     Ładowanie...
   </div>
