@@ -8,6 +8,7 @@
 
 
   <div class="container">
+    {{-- <example-component :tryb="trybnpm"></example-component> --}}
     <div class="row">
 
 <div class="col-md-8">
