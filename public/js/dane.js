@@ -117,6 +117,61 @@ przypisaniaszyb['GD02B']=['30'];
 przypisaniaszyb['GD03A']=['30'];
 
 
+wzorydoklamki['Lambda']=
+wzorydoklamki['LambdaR']=
+wzorydoklamki['Magnus']
+wzorydoklamki['MagnusR']
+wzorydoklamki['MagnusRZ']
+wzorydoklamki['MagnusZ']
+wzorydoklamki['Manitoba']
+wzorydoklamki[ManitobaG]
+wzorydoklamki[ManitobaR]
+wzorydoklamki[P060o45]
+wzorydoklamki[P060o90]
+wzorydoklamki[P060oL3]
+wzorydoklamki[P090oL1]
+wzorydoklamki[P120o45]
+wzorydoklamki[P120o90]
+wzorydoklamki[P120p45]
+wzorydoklamki[P120p90]
+wzorydoklamki[P120t]
+wzorydoklamki[P150o45]
+wzorydoklamki[P150o45x]
+wzorydoklamki[P150o90]
+wzorydoklamki[P150o90x]
+wzorydoklamki[P150oL1]
+wzorydoklamki[P150oL2]
+wzorydoklamki[P150oL3]
+wzorydoklamki[P150oL4]
+wzorydoklamki[P150oL6]
+wzorydoklamki[P150p45]
+wzorydoklamki[P150p45x]
+wzorydoklamki[P150p90]
+wzorydoklamki[P150p90x]
+wzorydoklamki[P180t]
+wzorydoklamki[Pock180]
+wzorydoklamki[Pock20]
+wzorydoklamki[Pock45]
+wzorydoklamki[Prestige]
+wzorydoklamki[PrestigeG]
+wzorydoklamki[PrestigeGZ]
+wzorydoklamki[PrestigeR]
+wzorydoklamki[PrestigeRZ]
+wzorydoklamki[PrestigeZ]
+wzorydoklamki[Prime]
+wzorydoklamki[PrimeR]
+wzorydoklamki[SlimSolo]
+wzorydoklamki[SlimSoloR]
+wzorydoklamki[SlimSoloRZ]
+wzorydoklamki[SlimSoloX]
+wzorydoklamki[SlimSoloXZ]
+wzorydoklamki[SlimSoloZ]
+wzorydoklamki[Tahoma]
+wzorydoklamki[TahomaR]
+
+
+
+
 
 let token = document.getElementsByName("csrf-token")[0].getAttribute('content');
 let url = '/api/storedoor';
